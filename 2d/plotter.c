@@ -6,11 +6,6 @@
 
 
 typedef struct {
-  double width;
-  double height;
-} _VIEWPORT;
-
-typedef struct {
   double x_min;
   double x_max;
   double x_scale;
@@ -21,38 +16,13 @@ typedef struct {
 } _BOUNDING_BOX;
 
 
-_VIEWPORT _viewport;
+GLint _viewport[4];
 _BOUNDING_BOX _boundingBox;
 int _plotter_error = PLOTTER_NO_ERROR;
 
 
-int validateInit() {
-  if ( _viewport.width <= 0.0 || _viewport.height <= 0.0 ) {
-    return 0;
-  }
-
-  if( _boundingBox.x_scale <= 0.0 || _boundingBox.y_scale <= 0.0 ) {
-    return 0;
-  }
-
-  return 1;
-}
-
-
 int plGetError() {
   return _plotter_error;
-}
-
-
-void plViewportSize(double width, double height) {
-  if ( width <= 0.0 || height <= 0.0 ) {
-    _plotter_error = PLOTTER_VIEWPORT_ERROR;
-    perror("Plotter Error (plViewportSize): Invalid arguments provided, must be positive values.\n");
-    return;
-  }
-
-  _viewport.width = width;
-  _viewport.height = height;
 }
 
 
@@ -74,12 +44,6 @@ void plBoundingBox(double x_min, double x_max, double x_scale, double y_min, dou
 
 
 void plPlot(coordinate *coords, int size) {
-  if ( !validateInit() ) {
-    _plotter_error = PLOTTER_INIT_ERROR;
-    perror("Plotter Error (plPlot): The plotter's Viewport and/or Bounding Box were not set up properly and either has blank or invalid values.\n");
-    return;
-  }
-
   if (!coords) {
     _plotter_error = PLOTTER_PLOT_ERROR;
     perror("Plotter Error (plPlot): Invalid coordinates provided, must be a valid pointer to a coordinate array.\n");
@@ -93,11 +57,13 @@ void plPlot(coordinate *coords, int size) {
 
   double x, y;
 
+  glGetIntegerv(GL_VIEWPORT, _viewport);
+
   glBegin(GL_LINE_STRIP);
     for(int i = 0; i < size; i++) {
       // Transform to Viewport world x and y
-      x = (coords[i].x - _boundingBox.x_min) / (_boundingBox.x_max - _boundingBox.x_min) * _viewport.width;
-      y = (coords[i].y - _boundingBox.y_min) / (_boundingBox.y_max - _boundingBox.y_min) * _viewport.height;
+      x = (coords[i].x - _boundingBox.x_min) / (_boundingBox.x_max - _boundingBox.x_min) * _viewport[2];
+      y = (coords[i].y - _boundingBox.y_min) / (_boundingBox.y_max - _boundingBox.y_min) * _viewport[3];
 
       glVertex2d(x, y);
     }
