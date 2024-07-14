@@ -17,7 +17,6 @@ typedef struct {
 typedef enum {
   PLOTTER_NO_ERROR,
   PLOTTER_INIT_ERROR,
-  PLOTTER_VIEWPORT_ERROR,
   PLOTTER_BOUNDING_BOX_ERROR,
   PLOTTER_PLOT_ERROR
 } PLOTTER_ERROR;
@@ -34,23 +33,12 @@ int plGetError();
 /**
  * Set the viewport dimensions
  * 
- * @param width [double] width of the viewport
- * @param height [double] height of the viewport
- * 
- * @return void
-*/ 
-void plViewportSize(double width, double height);
-
-
-/**
- * Set the viewport dimensions
- * 
  * @param x_min [double] left bound of visible x-axis
  * @param x_max [double] right bound of visible x-axis
- * @param x_scale [double] zoom factor of x-axis
+ * @param x_scale [double] used to determine gridlines of x-axis
  * @param y_min [double] bottom bound of visible y-axis
  * @param y_max [double] top bound of visible y-axis
- * @param y_scale [double] zoom factor of y-axis
+ * @param y_scale [double] used to determine gridlines of y-axis
  * 
  * @return void
 */ 

@@ -105,7 +105,6 @@ void displayFunc() {
         coords3[i].y = f(coords3[i].x);
     }
 
-    plViewportSize(640.0, 480.0);
     double x_min = M_PI/2.0 - 4.0*M_PI/9.0;
     double x_max = M_PI/2.0 + 4.0*M_PI/9.0;
     double x_scale = 50.0;
