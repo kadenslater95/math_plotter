@@ -1,6 +1,6 @@
 
-example: example.c lib2d_plotter.so 2d_plotter.h
-	gcc -Wall -o example example.c -lGL -lGLU -lglut -lm -L. -l2d_plotter
+example: example.c libplotter.so plotter.h
+	gcc -Wall -o example example.c -lGL -lGLU -lglut -lm -L. -lplotter
 
-lib2d_plotter.so: 2d_plotter.c 2d_plotter.h
-	gcc -Wall -shared -o lib2d_plotter.so 2d_plotter.c
+libplotter.so: plotter.c plotter.h
+	gcc -Wall -fPIC -shared -o libplotter.so plotter.c
