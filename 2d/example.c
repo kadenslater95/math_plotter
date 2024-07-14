@@ -31,7 +31,7 @@ void init() {
 int main(int argc, char** argv) {
     glutInit(&argc, argv);
 
-    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_MULTISAMPLE);
 
     glutInitWindowSize(640, 480);
     glutInitWindowPosition(100, 150);
@@ -59,7 +59,7 @@ void displayFunc() {
     plYofX(f);
 
 
-    glFlush();
+    glutSwapBuffers();
 }
 
 

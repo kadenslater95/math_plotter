@@ -17,4 +17,8 @@ The 2d library assumes you are using the fixed function pipeline and have called
 ```
 gluOrtho2D(0.0, viewportWidth, 0.0, viewportHeight);
 ```
+Also, make sure to include GL_MULTISAMPLE in the glutInitDisplayMode, similar to the following:
+```
+glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_MULTISAMPLE);
+```
 . . .
