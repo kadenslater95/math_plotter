@@ -58,6 +58,18 @@ void plInit() {
     2.0*M_PI,   // y_max
     50.0        // y_scale
   );
+
+  glEnable(GL_POINT_SMOOTH);
+  glEnable(GL_LINE_SMOOTH);
+  glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+  glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
+
+  glEnable(GL_MULTISAMPLE);
+  glSampleCoverage(1.0f, GL_FALSE);
+
+  glLineWidth(3.0f);
+
+  glColor3f(0.7f, 0.0f, 0.0f);
 }
 
 
@@ -141,7 +153,7 @@ void plPlot(coordinate *coords, int size) {
 
 
 void plYofX( double (*f)(double) ) {
-  int size = 100;
+  int size = 4096;
   double step = (_boundingBox.x_max - _boundingBox.x_min) / size; // diff of right and left bounds of interval divided by size
 
   coordinate coords[size];
