@@ -13,4 +13,8 @@ Run `make` from the 2d project root.
 > ```
 
 ## Usage
+The 2d library assumes you are using the fixed function pipeline and have called glOrtho2d with the values going from 0 to Viewport Width in the X, and 0 to Viewport Height in the Y, similar to the following:
+```
+gluOrtho2D(0.0, viewportWidth, 0.0, viewportHeight);
+```
 . . .

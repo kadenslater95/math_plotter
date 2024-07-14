@@ -17,9 +17,15 @@ typedef struct {
 typedef enum {
   PLOTTER_NO_ERROR,
   PLOTTER_INIT_ERROR,
+  PLOTTER_BOUND_CLOSENESS_LIMIT_ERROR,
   PLOTTER_BOUNDING_BOX_ERROR,
   PLOTTER_PLOT_ERROR
 } PLOTTER_ERROR;
+
+typedef enum {
+  PLOTTER_NO_WARNING,
+  PLOTTER_BOUNDING_BOX_WARNING
+} PLOTTER_WARNING;
 
 
 /**
@@ -28,6 +34,42 @@ typedef enum {
  * @return current PLOTTER_ERROR enum value
 */ 
 int plGetError();
+
+
+/**
+ * Initialize the plotter, must be called once at the beginning of the code before using the library
+ * 
+ * @return void
+*/
+void plInit();
+
+
+/**
+ * Get the current bound closeness limit (default is 0.000001).
+ * When the x_max - x_min (or y_max - y_min) are smaller than this limit they are considered to be equal
+ * 
+ * @return limit [double] the double that determines when the bounds are considered equal
+*/
+double plGetBoundClosenessLimit();
+
+
+/**
+ * Set the current bound closeness limit.
+ * When the x_max - x_min (or y_max - y_min) are smaller than this limit they are considered to be equal
+ * 
+ * @param limit [double] the double that determines when the bounds are considered equal
+ * 
+ * @return void
+*/
+void plSetBoundClosenessLimit(double limit);
+
+
+/**
+ * Initialize the plotter, must be called once at the beginning of the code before using the library
+ * 
+ * @return void
+*/
+void plInit();
 
 
 /**
@@ -43,6 +85,17 @@ int plGetError();
  * @return void
 */ 
 void plBoundingBox(double x_min, double x_max, double x_scale, double y_min, double y_max, double y_scale);
+
+
+/**
+ * Given a pointer to a function f that outputs y given x, this will plot that function within
+ * the current Bounding Box state of the plotter
+ * 
+ * @param f [function *] pointer to function that outputs y given x
+ * 
+ * @return void
+*/ 
+void plYofX( double (*f)(double) );
 
 
 /**
