@@ -1,5 +1,6 @@
 
 #include <GL/gl.h>
+#include <GL/glut.h>
 #include <math.h>
 #include <stdio.h>
 
@@ -20,6 +21,10 @@ typedef struct {
 } _BOUNDING_BOX;
 
 
+void mouseFunc(int, int, int, int);
+void motionFunc(int, int);
+
+
 GLint _viewport[4];
 
 _BOUNDING_BOX _boundingBox;
@@ -28,6 +33,8 @@ int _plotter_error = PLOTTER_NO_ERROR;
 int _plotter_warning = PLOTTER_NO_WARNING;
 
 double _boundClosenessLimit = 0.000001;
+
+int _mousedown_x, _mousedown_y;
 
 
 int plGetError() {
@@ -68,6 +75,9 @@ void plInit() {
   glSampleCoverage(1.0f, GL_FALSE);
 
   glLineWidth(3.0f);
+
+  glutMouseFunc(mouseFunc);
+  glutMotionFunc(motionFunc);
 
   glColor3f(0.7f, 0.0f, 0.0f);
 }
@@ -164,4 +174,28 @@ void plYofX( double (*f)(double) ) {
   }
 
   plPlot(coords, size);
+}
+
+
+void mouseFunc(int button, int state, int x, int y) {
+  if (button == GLUT_LEFT_BUTTON) {
+    if (state == GLUT_DOWN) {
+      _mousedown_x = x;
+      _mousedown_y = y;
+    }
+  }
+}
+
+
+void motionFunc(int x, int y) {
+  double dX = 0.00025 * (_mousedown_x - x);
+  double dY = 0.00025 * (_mousedown_y - y);
+
+  _boundingBox.x_min += dX;
+  _boundingBox.x_max += dX;
+
+  _boundingBox.y_min -= dY;
+  _boundingBox.y_max -= dY;
+
+  glutPostRedisplay();
 }

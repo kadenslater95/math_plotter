@@ -40,9 +40,7 @@ int main(int argc, char** argv) {
     glutDisplayFunc(displayFunc);
 
     init();
-
-    printf("\n__STDC_VERSION__: %ld\n", __STDC_VERSION__);
-    printf("M_PI: %lf\n\n", M_PI);
+    plInit();
 
     glutMainLoop();
 
@@ -52,9 +50,6 @@ int main(int argc, char** argv) {
 
 void displayFunc() {
     glClear(GL_COLOR_BUFFER_BIT);
-
-
-    plInit();
 
     plYofX(f);
 
