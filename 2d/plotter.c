@@ -273,8 +273,8 @@ void _mouseFunc(int button, int state, int x, int y) {
 
 
 void _motionFunc(int x, int y) {
-  double dX = 0.00025 * (_mousedown_x - x);
-  double dY = 0.00025 * (_mousedown_y - y);
+  double dX = (_boundingBox.x_max - _boundingBox.x_min) * (_mousedown_x - x)/( (double) _viewport[3] );
+  double dY = (_boundingBox.y_max - _boundingBox.y_min) * (_mousedown_y - y)/( (double) _viewport[3] );
 
   _boundingBox.x_min += dX;
   _boundingBox.x_max += dX;
@@ -283,4 +283,9 @@ void _motionFunc(int x, int y) {
   _boundingBox.y_max -= dY;
 
   glutPostRedisplay();
+
+  // Update _mousedown_x and _mousedown_y so that when that stop moving and then start moving again
+  // it will base the dX and dY on the current position and not the old initial mouse down position
+  _mousedown_x = x;
+  _mousedown_y = y;
 }
