@@ -160,6 +160,18 @@ void plBoundingBox(double x_min, double x_max, double x_scale, double y_min, dou
 }
 
 
+void plHome() {
+  plBoundingBox(
+    -2.0*M_PI,  // x_min
+    2.0*M_PI,   // x_max
+    50.0,       // x_scale
+    -2.0*M_PI,  // y_min
+    2.0*M_PI,   // y_max
+    50.0        // y_scale
+  );
+}
+
+
 void plPlot(coordinate *coords, int size) {
   if ( !_validateInit() ) {
     _plotter_error = PLOTTER_INIT_ERROR;

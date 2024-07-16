@@ -1,9 +1,17 @@
 # math_plotter
-Making mathematical graph plotting libraries for OpenGL using C/C++.
+Making mathematical graph plotting tool (similar to Desmos 2D and Geogebra 3D) for OpenGL using C/C++.
 
 The 2d and 3d folders are each their own project.
 
 ![Screenshot from 2024-07-15 20-46-08](https://github.com/user-attachments/assets/f5514d7d-3e9b-4c9f-a6cf-f6ee88d58f29)
+
+
+# Requirements
+Make sure to have [freeglut](https://freeglut.sourceforge.net/) installed and on your path (you can also get it from your package manager).
+
+Currently this uses a make file so you will want mingw if you are on windows. \
+For linux (where it was developed) make sure you have the gnu compiler toolchain. \
+For Mac the default clang toolchain will probably work, but otherwise install gnu compiler toolchain.
 
 
 # Building
@@ -16,12 +24,4 @@ Run `make` from the 2d project root.
 > ```
 
 ## Usage
-The 2d library assumes you are using the fixed function pipeline via GLUT and have called gluOrtho2d with the values going from 0 to Viewport Width in the X, and 0 to Viewport Height in the Y, similar to the following:
-```
-gluOrtho2D(0.0, viewportWidth, 0.0, viewportHeight);
-```
-Also, make sure to include GL_MULTISAMPLE in the glutInitDisplayMode, similar to the following:
-```
-glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_MULTISAMPLE);
-```
 . . .
