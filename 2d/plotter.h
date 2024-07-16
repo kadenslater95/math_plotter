@@ -100,6 +100,12 @@ void plBoundingBox(double x_min, double x_max, double x_scale, double y_min, dou
 
 
 /**
+ * Go back to the default bounding box
+ */
+void plHome();
+
+
+/**
  * Given a pointer to a function f that outputs y given x, this will plot that function within
  * the current Bounding Box state of the plotter
  * 
