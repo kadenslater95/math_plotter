@@ -1,7 +1,7 @@
 
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include <GL/glut.h>
+#include <GL/freeglut.h>
 #include <math.h>
 #include <stdio.h>
 
@@ -59,6 +59,6 @@ void displayFunc() {
 
 
 double f(double x) {
-    return sin(x);
+    return x*sin(1.0/x);
 }
 
