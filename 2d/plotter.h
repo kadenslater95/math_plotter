@@ -65,6 +65,18 @@ void plSetBoundClosenessLimit(double limit);
 
 
 /**
+ * Set the current drawing color
+ * 
+ * @param red [float] amount of red between 0.0f and 1.0f
+ * @param green [float] amount of green between 0.0f and 1.0f
+ * @param blue [float] amount of blue between 0.0f and 1.0f
+ * 
+ * @return void
+*/
+void plSetColor3f(float red, float green, float blue);
+
+
+/**
  * Initialize the plotter, must be called once at the beginning of the code before using the library
  * 
  * @return void
@@ -96,6 +108,20 @@ void plBoundingBox(double x_min, double x_max, double x_scale, double y_min, dou
  * @return void
 */ 
 void plYofX( double (*f)(double) );
+
+
+/**
+ * Given a pointer to a function r that outputs r given theta, this will plot that function within
+ * the current provided theta_min and theta_max
+ * 
+ * @param r [function *] pointer to function that outputs r as a function of theta
+ * @param theta_min [double] minimum of the theta used to plot the polar curve
+ * @param theta_max [double] maximum of the theta used to plot the polar curve
+ * @param size [int] the number of coordinates to use to plot the polar curve
+ * 
+ * @return void
+*/ 
+void plRofTheta( double (*r)(double), double theta_min, double theta_max, int size );
 
 
 /**
