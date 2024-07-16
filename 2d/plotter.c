@@ -1,6 +1,6 @@
 
 #include <GL/gl.h>
-#include <GL/glut.h>
+#include <GL/freeglut.h>
 #include <math.h>
 #include <stdio.h>
 
@@ -178,11 +178,45 @@ void plYofX( double (*f)(double) ) {
 
 
 void mouseFunc(int button, int state, int x, int y) {
-  if (button == GLUT_LEFT_BUTTON) {
-    if (state == GLUT_DOWN) {
-      _mousedown_x = x;
-      _mousedown_y = y;
-    }
+  int redraw = 0;
+  double scaleFactor = 0.05;
+
+  switch(button) {
+    case GLUT_LEFT_BUTTON:
+      if (state == GLUT_DOWN) {
+        _mousedown_x = x;
+        _mousedown_y = y;
+      }
+
+      break;
+    case 3: // Scroll Up
+      double downFactor = 1.0 - scaleFactor;
+
+      _boundingBox.x_min *= downFactor;
+      _boundingBox.x_max *= downFactor;
+
+      _boundingBox.y_min *= downFactor;
+      _boundingBox.y_max *= downFactor;
+
+      redraw = 1;
+
+      break;
+    case 4: // Scroll Down
+      double upFactor = 1.0 + scaleFactor;
+
+      _boundingBox.x_min *= upFactor;
+      _boundingBox.x_max *= upFactor;
+
+      _boundingBox.y_min *= upFactor;
+      _boundingBox.y_max *= upFactor;
+
+      redraw = 1;
+
+      break;
+  }
+
+  if (redraw) {
+    glutPostRedisplay();
   }
 }
 
