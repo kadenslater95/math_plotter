@@ -3,6 +3,9 @@ Making mathematical graph plotting libraries for OpenGL using C/C++.
 
 The 2d and 3d folders are each their own project.
 
+![Screenshot from 2024-07-15 20-46-08](https://github.com/user-attachments/assets/f5514d7d-3e9b-4c9f-a6cf-f6ee88d58f29)
+
+
 # Building
 Run `make` from the 2d project root.
 
