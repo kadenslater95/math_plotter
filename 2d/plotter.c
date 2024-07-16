@@ -21,8 +21,8 @@ typedef struct {
 } _BOUNDING_BOX;
 
 
-void mouseFunc(int, int, int, int);
-void motionFunc(int, int);
+void _mouseFunc(int, int, int, int);
+void _motionFunc(int, int);
 
 
 GLint _viewport[4];
@@ -35,6 +35,10 @@ int _plotter_warning = PLOTTER_NO_WARNING;
 double _boundClosenessLimit = 0.000001;
 
 int _mousedown_x, _mousedown_y;
+
+float _red = 0.7f;
+float _green = 0.0f;
+float _blue = 0.0f;
 
 
 int plGetError() {
@@ -74,12 +78,13 @@ void plInit() {
   glEnable(GL_MULTISAMPLE);
   glSampleCoverage(1.0f, GL_FALSE);
 
-  glLineWidth(3.0f);
+  // glLineWidth(3.0f);
+  glLineWidth(2.0f);
 
-  glutMouseFunc(mouseFunc);
-  glutMotionFunc(motionFunc);
+  glutMouseFunc(_mouseFunc);
+  glutMotionFunc(_motionFunc);
 
-  glColor3f(0.7f, 0.0f, 0.0f);
+  glColor3f(_red, _green, _blue);
 }
 
 
@@ -96,6 +101,33 @@ void plSetBoundClosenessLimit(double limit) {
   }
 
   _boundClosenessLimit = limit;
+}
+
+
+void plSetColor3f(float red, float green, float blue) {
+  if ( red < 0.0f ) {
+    _red = 0.0f;
+  } else if ( red > 1.0f ) {
+    _red = 1.0f;
+  } else {
+    _red = red;
+  }
+
+  if ( green < 0.0f ) {
+    _green = 0.0f;
+  } else if ( green > 1.0f ) {
+    _green = 1.0f;
+  } else {
+    _green = green;
+  }
+
+  if ( blue < 0.0f ) {
+    _blue = 0.0f;
+  } else if ( blue > 1.0f ) {
+    _blue = 1.0f;
+  } else {
+    _blue = blue;
+  }
 }
 
 
@@ -150,6 +182,8 @@ void plPlot(coordinate *coords, int size) {
 
   glGetIntegerv(GL_VIEWPORT, _viewport);
 
+  glColor3f(_red, _green, _blue);
+
   glBegin(GL_LINE_STRIP);
     for(int i = 0; i < size; i++) {
       // Transform to Viewport world x and y
@@ -177,7 +211,24 @@ void plYofX( double (*f)(double) ) {
 }
 
 
-void mouseFunc(int button, int state, int x, int y) {
+void plRofTheta( double (*r)(double), double theta_min, double theta_max, int size ) {
+  double step = (theta_max - theta_min) / size; // diff of right and left bounds of interval divided by size
+  double theta = theta_min;
+
+  coordinate coords[size];
+
+  for(int i = 0; i < size; i++) {
+      theta = theta_min + i*step;
+
+      coords[i].x = r(theta) * cos(theta);
+      coords[i].y = r(theta) * sin(theta);
+  }
+
+  plPlot(coords, size);
+}
+
+
+void _mouseFunc(int button, int state, int x, int y) {
   int redraw = 0;
   double scaleFactor = 0.05;
 
@@ -221,7 +272,7 @@ void mouseFunc(int button, int state, int x, int y) {
 }
 
 
-void motionFunc(int x, int y) {
+void _motionFunc(int x, int y) {
   double dX = 0.00025 * (_mousedown_x - x);
   double dY = 0.00025 * (_mousedown_y - y);
 

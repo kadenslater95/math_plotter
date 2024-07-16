@@ -14,6 +14,7 @@
 void displayFunc();
 
 double f(double);
+double r(double);
 
 
 void init() {
@@ -51,7 +52,11 @@ int main(int argc, char** argv) {
 void displayFunc() {
     glClear(GL_COLOR_BUFFER_BIT);
 
+    plSetColor3f(0.0f, 0.5f, 0.0f);
     plYofX(f);
+
+    plSetColor3f(0.0f, 0.0f, 0.7f);
+    plRofTheta(r, 0.0, 10.0*M_PI, 4096);
 
 
     glutSwapBuffers();
@@ -59,6 +64,10 @@ void displayFunc() {
 
 
 double f(double x) {
-    return x*sin(1.0/x);
+    return x*sin(7.0/x) + 4.0;
 }
 
+
+double r(double theta) {
+    return cos(1.6*theta) + 1.6;
+}
