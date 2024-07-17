@@ -18,7 +18,7 @@ For Mac the default clang toolchain will probably work, but otherwise install gn
 Run `make` from the 2d project root.
 
 > **Note** \
-> You will need to set the `LD_LIBRARY_PATH` to be able to use the shared library within this folder
+> You will need to set the `LD_LIBRARY_PATH` to be able to use the shared library within this folder, so from the 2d folder execute this command:
 >```
 > export LD_LIBRARY_PATH="`pwd`;$LD_LIBRARY_PATH"
 > ```
