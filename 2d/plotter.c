@@ -241,58 +241,45 @@ void plRofTheta( double (*r)(double), double theta_min, double theta_max, int si
 
 
 void _mouseFunc(int button, int state, int x, int y) {
-  int redraw = 0;
-  double scaleFactor = 0.05;
+  if ( button == GLUT_LEFT_BUTTON && state == GLUT_DOWN ) {
+    _mousedown_x = x;
+    _mousedown_y = y;
+  } else if ( button == 3 || button == 4 ) {
+    double scaleFactor = 0.05;
 
-  switch(button) {
-    case GLUT_LEFT_BUTTON:
-      if (state == GLUT_DOWN) {
-        _mousedown_x = x;
-        _mousedown_y = y;
-      }
+    if (button == 3) {
+      scaleFactor = 1.0 - scaleFactor;
+    }else {
+      scaleFactor = 1.0 + scaleFactor;
+    }
 
-      break;
-    case 3: // Scroll Up
-      double downFactor = 1.0 - scaleFactor;
+    double x_min = _boundingBox.x_min;
+    double x_max = _boundingBox.x_max;
+    _boundingBox.x_min = x_min + (1.0 - scaleFactor) * ( x/( (double) _viewport[2] ) ) * ( x_max - x_min );
+    _boundingBox.x_max = x_max -  (1.0 - scaleFactor) * (_viewport[2] - x) / ( (double) _viewport[2] ) * ( x_max - x_min );
 
-      _boundingBox.x_min *= downFactor;
-      _boundingBox.x_max *= downFactor;
+    double y_min = _boundingBox.y_min;
+    double y_max = _boundingBox.y_max;
+    _boundingBox.y_min = y_min + (1.0 - scaleFactor) * ( (_viewport[3] - y)/( (double) _viewport[3] ) ) * ( y_max - y_min );
+    _boundingBox.y_max = y_max -  (1.0 - scaleFactor) * ( y / ( (double) _viewport[3] ) ) * ( y_max - y_min );
 
-      _boundingBox.y_min *= downFactor;
-      _boundingBox.y_max *= downFactor;
 
-      redraw = 1;
-
-      break;
-    case 4: // Scroll Down
-      double upFactor = 1.0 + scaleFactor;
-
-      _boundingBox.x_min *= upFactor;
-      _boundingBox.x_max *= upFactor;
-
-      _boundingBox.y_min *= upFactor;
-      _boundingBox.y_max *= upFactor;
-
-      redraw = 1;
-
-      break;
-  }
-
-  if (redraw) {
     glutPostRedisplay();
   }
 }
 
 
 void _motionFunc(int x, int y) {
-  double dX = (_boundingBox.x_max - _boundingBox.x_min) * (_mousedown_x - x)/( (double) _viewport[3] );
-  double dY = (_boundingBox.y_max - _boundingBox.y_min) * (_mousedown_y - y)/( (double) _viewport[3] );
+  // Determine what x and y are in terms of normalized coordinates from 0.0 to 1.0 based on viewport width
+  // and height proportions, then put those proportions in terms of the bounding box width and height
+  double dX = (_boundingBox.x_max - _boundingBox.x_min) * (_mousedown_x - x)/( (double) _viewport[2] );
+  double dY = -(_boundingBox.y_max - _boundingBox.y_min) * (_mousedown_y - y)/( (double) _viewport[3] );
 
   _boundingBox.x_min += dX;
   _boundingBox.x_max += dX;
 
-  _boundingBox.y_min -= dY;
-  _boundingBox.y_max -= dY;
+  _boundingBox.y_min += dY;
+  _boundingBox.y_max += dY;
 
   glutPostRedisplay();
 
