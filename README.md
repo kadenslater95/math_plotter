@@ -3,7 +3,8 @@ Making mathematical graph plotting tool (similar to Desmos 2D and Geogebra 3D) f
 
 The 2d and 3d folders are each their own project.
 
-![Screenshot from 2024-07-15 20-46-08](https://github.com/user-attachments/assets/f5514d7d-3e9b-4c9f-a6cf-f6ee88d58f29)
+[Screencast from 07-17-2024 08:36:16 AM.webm](https://github.com/user-attachments/assets/06dfe185-a34b-47c7-b5bf-4e79c50b53e4)
+
 
 
 # Requirements
